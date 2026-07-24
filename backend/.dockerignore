@@ -1,3 +1,10 @@
-node_modules
+# Environment files
 .env
-.git
+.env.*
+backend/.env
+frontend/.env
+
+# Node modules
+node_modules/
+backend/node_modules/
+frontend/node_modules/
