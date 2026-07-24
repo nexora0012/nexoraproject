@@ -63,15 +63,17 @@ const RegisterScreen = ({navigation}: Props) => {
       });
 
       Alert.alert(
-        'Registration Successful',
-        response.message || 'Account created successfully.',
+        'OTP Sent',
+        response.message || 'Please verify your mobile number to continue.',
         [
           {
-            text: 'Login',
-            onPress: () => navigation.goBack(),
+            text: 'Continue',
+            onPress: () =>
+              navigation.navigate('VerifyOtp', {mobile: cleanMobile}),
           },
         ],
       );
+      
     } catch (error: any) {
       let message = 'Unable to create account. Please try again.';
 

@@ -21,5 +21,6 @@ router.put(
   authMiddleware,
   changePassword,
 );
-
+router.post('/verify-registration-otp', verifyRegistrationOtp);
+router.post('/resend-otp', resendOtp);
 module.exports = router;

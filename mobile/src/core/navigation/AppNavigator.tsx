@@ -9,7 +9,7 @@ import ChangePasswordScreen from '../../features/profile/screens/ChangePasswordS
 import BottomTabNavigator from './BottomTabNavigator';
 import {RootStackParamList} from './types';
 import PaymentHistoryScreen from '../../features/payments/screens/PaymentHistoryScreen';
-
+import VerifyOtpScreen from '../../features/auth/screens/VerifyOtpScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -33,6 +33,10 @@ const AppNavigator = () => {
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
+      />
+      <Stack.Screen
+        name="VerifyOtp"
+        component={VerifyOtpScreen}
       />
 
       <Stack.Screen
