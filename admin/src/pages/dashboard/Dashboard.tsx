@@ -16,19 +16,20 @@ export default function Dashboard() {
     }, []);
 
     async function loadDashboard() {
-
         try {
-
             const data = await getDashboard();
-
             setStats(data);
-
         } catch (err) {
-
             console.log(err);
-
+            setStats({
+                totalUsers: 0,
+                totalPlans: 0,
+                walletBalance: 0,
+                pendingWithdrawals: 0,
+                recentActivity: [],
+                latestUsers: [],
+            });
         }
-
     }
 
     if (!stats)

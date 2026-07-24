@@ -45,4 +45,6 @@ app.use("/api/settings", accountSettingRoutes);
 app.use("/uploads",express.static(path.join(__dirname, "../uploads")));
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/admin/returns',adminReturnRoutes,);
+app.use('/api/usdt-payment', require('./routes/usdtPaymentRoutes'));
+
 module.exports = app;

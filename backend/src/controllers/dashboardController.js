@@ -7,45 +7,47 @@ const Payment = require('../models/Payment');
 const dashboard = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
-
-    const activeUsers = await User.countDocuments({
-      isActive: true,
-    });
+    const totalPlans = await Plan.countDocuments();
 
     const wallet = await User.aggregate([
       {
         $group: {
           _id: null,
-          total: {
-            $sum: '$walletBalance',
-          },
+          total: { $sum: '$walletBalance' },
         },
       },
     ]);
 
-    const totalPlans = await Plan.countDocuments();
+    const recentTransactions = await WalletTransaction.find()
+      .populate('user', 'fullName')
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    const recentActivity = recentTransactions.map((tx) => {
+      const name = tx.user?.fullName || 'A user';
+      const action = tx.type === 'credit' ? 'received' : 'debited';
+      return `${name} ${action} ₹${tx.amount} (${tx.category || 'Wallet'})`;
+    });
+
+    const latestUsersRaw = await User.find()
+      .select('fullName')
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    const latestUsers = latestUsersRaw.map((u) => ({ name: u.fullName }));
 
     res.json({
       success: true,
-
-      data: {
-        totalUsers,
-
-        activeUsers,
-
-        walletBalance:
-          wallet.length > 0 ? wallet[0].total : 0,
-
-        totalPlans,
-      },
+      totalUsers,
+      totalPlans,
+      walletBalance: wallet.length > 0 ? wallet[0].total : 0,
+      pendingWithdrawals: 0,
+      recentActivity,
+      latestUsers,
     });
   } catch (error) {
     console.log(error);
-
-    res.status(500).json({
-      success: false,
-      message: 'Server Error',
-    });
+    res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
 

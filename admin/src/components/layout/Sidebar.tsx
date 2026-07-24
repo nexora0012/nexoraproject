@@ -6,6 +6,7 @@ import {
   FiBell,
   FiRefreshCcw,
   FiSettings,
+  FiDollarSign,
 } from "react-icons/fi";
 
 import { NavLink } from "react-router-dom";
@@ -46,6 +47,14 @@ const menus = [
     path: "/settings",
     icon: <FiSettings />,
   },
+  {
+    name: "USDT Payment",
+    path: "/usdt-payment",
+    icon: <FiDollarSign />,
+  },
+
+
+
 ];
 
 export default function Sidebar() {

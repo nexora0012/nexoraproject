@@ -46,3 +46,5 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+export const SERVER_BASE_URL = api.defaults.baseURL?.replace('/api', '') || ''; //  this is a new 

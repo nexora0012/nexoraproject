@@ -16,6 +16,8 @@ import EditPlan from "../pages/plans/EditPlan";
 import CreditWallet from "../pages/wallet/CreditWallet";
 import DebitWallet from "../pages/wallet/DebitWallet";
 import Returns from '../pages/returns/Returns';
+import UsdtPayment from '../pages/usdt/UsdtPayment'; 
+
 
 export default function AppRoutes() {
   return (
@@ -45,6 +47,9 @@ export default function AppRoutes() {
 
       <Route path="/settings" element={<Settings />} />
       <Route path="/returns" element={<Returns />}/>
+      <Route path="/usdt-payment" element={<UsdtPayment />} />
+
+
     </Routes>
   );
 }

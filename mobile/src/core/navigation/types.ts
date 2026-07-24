@@ -8,4 +8,6 @@ export type RootStackParamList = {
   MySubscription: undefined;
   ChangePassword: undefined;
   PaymentHistory: undefined;
+  UsdtDeposit: undefined; // this is a new created 
+  
 };

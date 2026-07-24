@@ -13,6 +13,7 @@ import {
   Alert,
   ScrollView,
   RefreshControl,
+  Linking,
 } from 'react-native';
 
 import {
@@ -469,6 +470,15 @@ const handleLogout = () => {
                 </Text>
                 
          </TouchableOpacity>
+         <TouchableOpacity
+         style={styles.supportButton}
+         onPress={() =>
+          Linking.openURL('https://wa.me/918177998843')
+          }>
+            <Text style={styles.supportText}>
+                Customer Support
+                </Text>
+         </TouchableOpacity>
          
          <TouchableOpacity
          style={styles.logoutButton}
@@ -600,7 +610,24 @@ const styles = StyleSheet.create({
   paddingVertical: 15,
   alignItems: 'center',
   marginTop: 12,
+
+  
 },
+supportButton: {
+    backgroundColor: Theme.colors.card,
+    borderWidth: 1,
+    borderColor: '#475569',
+    borderRadius: 12,
+    paddingVertical: 15,
+    alignItems: 'center',
+    marginTop: 12,
+  },
+
+  supportText: {
+    color: Theme.colors.white,
+    fontSize: 16,
+    fontWeight: '700',
+  },
 
 changePasswordText: {
   color: Theme.colors.white,

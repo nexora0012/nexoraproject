@@ -2,9 +2,8 @@
 .env
 .env.*
 backend/.env
-frontend/.env
 
-# Node modules
+# Dependencies
 node_modules/
 backend/node_modules/
 frontend/node_modules/

@@ -10,7 +10,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 import {RootStackParamList} from './types';
 import PaymentHistoryScreen from '../../features/payments/screens/PaymentHistoryScreen';
 import VerifyOtpScreen from '../../features/auth/screens/VerifyOtpScreen';
-
+import UsdtDepositScreen from '../../features/wallet/screens/UsdtDepositScreen'; 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
@@ -72,6 +72,10 @@ const AppNavigator = () => {
        headerShown: true,
        }}
       />
+      <Stack.Screen
+        name="UsdtDeposit"
+        component={UsdtDepositScreen}
+      /> 
 
 
 

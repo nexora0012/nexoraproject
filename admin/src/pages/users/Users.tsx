@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import AdminLayout from "../../layouts/AdminLayout";
-import { getUsers } from "../../services/userService";
+import { getUsers, deleteUser } from "../../services/userService";
 
 interface User {
   _id: string;
@@ -17,6 +17,7 @@ export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -36,6 +37,25 @@ export default function Users() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const handleDelete = async (id: string, name: string) => {
+    const confirmed = window.confirm(
+      `Delete user "${name}"? This cannot be undone.`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setDeletingId(id);
+      await deleteUser(id);
+      setUsers((prev) => prev.filter((u) => u._id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete user");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <AdminLayout>
@@ -66,6 +86,7 @@ export default function Users() {
                   <th>Mobile</th>
                   <th>Wallet Balance</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
 
@@ -81,11 +102,29 @@ export default function Users() {
                     <td>
                       <span
                         className={
-                          user.isActive ? "status-badge active" : "status-badge inactive"
+                          user.isActive
+                            ? "status-badge active"
+                            : "status-badge inactive"
                         }
                       >
                         {user.isActive ? "Active" : "Inactive"}
                       </span>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleDelete(user._id, user.fullName)}
+                        disabled={deletingId === user._id}
+                        style={{
+                          background: "#DC2626",
+                          color: "#fff",
+                          border: "none",
+                          borderRadius: 6,
+                          padding: "6px 12px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {deletingId === user._id ? "Deleting..." : "Delete"}
+                      </button>
                     </td>
                   </tr>
                 ))}

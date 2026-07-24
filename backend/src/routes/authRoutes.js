@@ -7,7 +7,7 @@ const {
   login,
   changePassword,
   verifyRegistrationOtp,
-  resendOtp,
+  resendOtp,forgotPassword, resetPassword,
 } = require('../controllers/authController');
 
 const authMiddleware = require(
@@ -25,4 +25,6 @@ router.put(
 );
 router.post('/verify-registration-otp', verifyRegistrationOtp);
 router.post('/resend-otp', resendOtp);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 module.exports = router;

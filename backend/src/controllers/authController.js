@@ -219,11 +219,86 @@ const changePassword = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+// Step 1: request password reset — sends OTP to the account's mobile
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
 
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
+
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
+
+    if (!user) {
+      // Don't reveal whether the email exists — generic response either way
+      return res.status(200).json({
+        success: true,
+        message: 'If this email is registered, an OTP has been sent to the linked mobile number.',
+      });
+    }
+
+    await sendOtp(user.mobile);
+
+    const maskedMobile = user.mobile.replace(/(\d{2})\d{6}(\d{2})/, '$1XXXXXX$2');
+
+    return res.status(200).json({
+      success: true,
+      message: `OTP sent to ${maskedMobile}`,
+      mobile: user.mobile,
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    return res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+// Step 2: verify OTP + set new password
+const resetPassword = async (req, res) => {
+  try {
+    const { mobile, otp, newPassword } = req.body;
+
+    if (!mobile || !otp || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Mobile, OTP, and new password are required',
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'New password must contain at least 6 characters',
+      });
+    }
+
+    const user = await User.findOne({ mobile: mobile.trim() });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const result = await checkOtp(mobile.trim(), otp);
+
+    if (result.status !== 'approved') {
+      return res.status(401).json({ success: false, message: 'Invalid or expired OTP' });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    return res.status(200).json({ success: true, message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    return res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
 module.exports = {
   register,
   verifyRegistrationOtp,
   resendOtp,
   login,
   changePassword,
+  forgotPassword,
+  resetPassword,
 };
