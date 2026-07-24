@@ -6,6 +6,8 @@ const {
   register,
   login,
   changePassword,
+  verifyRegistrationOtp,
+  resendOtp,
 } = require('../controllers/authController');
 
 const authMiddleware = require(
