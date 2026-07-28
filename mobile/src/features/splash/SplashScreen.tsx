@@ -1,31 +1,35 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
 } from 'react-native';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../core/navigation/types';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../core/navigation/types';
+import { getToken } from '../../core/storage/storage';
 
 type Props = NativeStackScreenProps<
   RootStackParamList,
   'Splash'
 >;
 
-const SplashScreen = ({navigation}: Props) => {
-
+const SplashScreen = ({ navigation }: Props) => {
   useEffect(() => {
+    const checkAuth = async () => {
+      const token = await getToken();
 
-    const timer = setTimeout(() => {
+      setTimeout(() => {
+        if (token) {
+          navigation.replace('Main');
+        } else {
+          navigation.replace('Login');
+        }
+      }, 2500);
+    };
 
-      navigation.replace('Login');
-
-    }, 2500);
-
-    return () => clearTimeout(timer);
-
-  }, []);
+    checkAuth();
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

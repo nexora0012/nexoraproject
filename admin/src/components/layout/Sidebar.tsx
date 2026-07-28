@@ -7,6 +7,7 @@ import {
   FiRefreshCcw,
   FiSettings,
   FiDollarSign,
+  FiImage,
 } from "react-icons/fi";
 
 import { NavLink } from "react-router-dom";
@@ -51,6 +52,11 @@ const menus = [
     name: "USDT Payment",
     path: "/usdt-payment",
     icon: <FiDollarSign />,
+  },
+  {
+    name: "Payment Proofs",
+    path: "/payment-proofs",
+    icon: <FiImage />,
   },
 
 

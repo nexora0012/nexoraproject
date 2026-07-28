@@ -46,5 +46,6 @@ app.use("/uploads",express.static(path.join(__dirname, "../uploads")));
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/admin/returns',adminReturnRoutes,);
 app.use('/api/usdt-payment', require('./routes/usdtPaymentRoutes'));
+app.use('/api/payment-proof', require('./routes/paymentProofRoutes'));
 
 module.exports = app;

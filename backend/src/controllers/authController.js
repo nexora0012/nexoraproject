@@ -7,7 +7,7 @@ const { sendOtp, checkOtp } = require('../utils/twilioClient');
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MOBILE_REGEX = /^[6-9]\d{9}$/;
 
-// Step 1: Register — validates + sends OTP via Twilio, does NOT fully activate account
+// Step 1: Register — validates + sends OTP via Twilio (if enabled), does NOT fully activate account
 const register = async (req, res) => {
   try {
     const { fullName, email, mobile, password } = req.body;
@@ -39,6 +39,7 @@ const register = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const otpEnabled = process.env.OTP_VERIFICATION_ENABLED === 'true';
     let user;
 
     if (existingUser && !existingUser.isVerified) {
@@ -46,6 +47,7 @@ const register = async (req, res) => {
       existingUser.email = cleanEmail;
       existingUser.mobile = cleanMobile;
       existingUser.password = hashedPassword;
+      existingUser.isVerified = !otpEnabled;
       user = await existingUser.save();
     } else {
       user = await User.create({
@@ -53,16 +55,32 @@ const register = async (req, res) => {
         email: cleanEmail,
         mobile: cleanMobile,
         password: hashedPassword,
-        isVerified: false,
+        isVerified: !otpEnabled,
       });
     }
 
-    await sendOtp(cleanMobile);
+    if (otpEnabled) {
+      await sendOtp(cleanMobile);
+
+      return res.status(201).json({
+        success: true,
+        message: 'OTP sent to your mobile number. Please verify to complete registration.',
+        mobile: cleanMobile,
+      });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     return res.status(201).json({
       success: true,
-      message: 'OTP sent to your mobile number. Please verify to complete registration.',
-      mobile: cleanMobile,
+      message: 'Registration successful.',
+      token,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        mobile: user.mobile,
+      },
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -70,7 +88,7 @@ const register = async (req, res) => {
   }
 };
 
-// Step 2: Verify OTP -> activates the account and logs in
+// Step 2: Verify OTP -> activates the account and logs in (only used when OTP is enabled)
 const verifyRegistrationOtp = async (req, res) => {
   try {
     const { mobile, otp } = req.body;
@@ -133,7 +151,7 @@ const resendOtp = async (req, res) => {
   }
 };
 
-// Login — blocks unverified accounts
+// Login — blocks unverified accounts (irrelevant while OTP is paused, since new users are auto-verified)
 const login = async (req, res) => {
   try {
     let { email, password } = req.body;
@@ -219,6 +237,7 @@ const changePassword = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+
 // Step 1: request password reset — sends OTP to the account's mobile
 const forgotPassword = async (req, res) => {
   try {
@@ -231,7 +250,6 @@ const forgotPassword = async (req, res) => {
     const user = await User.findOne({ email: email.trim().toLowerCase() });
 
     if (!user) {
-      // Don't reveal whether the email exists — generic response either way
       return res.status(200).json({
         success: true,
         message: 'If this email is registered, an OTP has been sent to the linked mobile number.',
@@ -293,6 +311,7 @@ const resetPassword = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
+
 module.exports = {
   register,
   verifyRegistrationOtp,
