@@ -213,8 +213,9 @@ const ProfileScreen = () => {
     }
   };
 
-  const performLogout = async () => {
-  try { await AsyncStorage.removeMany(['authToken', 'userData']);
+ const performLogout = async () => {
+  try {
+    await AsyncStorage.removeMany(['authToken', 'userData']);
 
     navigation.reset({
       index: 0,

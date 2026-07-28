@@ -199,7 +199,7 @@ const MySubscriptionScreen = () => {
   };
 
   const openPlans = () => {
-    navigation.navigate('Plans');
+    navigation.navigate('Main', { screen: 'Plans' });
   };
 
   if (isLoading) {

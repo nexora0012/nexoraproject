@@ -16,7 +16,6 @@ import Theme from '../../../core/theme/theme';
 import CustomInput from '../../../shared/components/Input/CustomInput';
 import CustomButton from '../../../shared/components/Button/CustomButton';
 import {registerUser} from '../services/authService';
-import {saveToken} from '../../../core/storage/storage';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
@@ -64,14 +63,16 @@ const RegisterScreen = ({navigation}: Props) => {
       });
 
       if (response.token) {
-        await saveToken(response.token);
-
-        Alert.alert('Success', 'Account created successfully.', [
-          {
-            text: 'Continue',
-            onPress: () => navigation.reset({index: 0, routes: [{name: 'Main'}]}),
-          },
-        ]);
+        Alert.alert(
+          'Registration Successful',
+          response.message || 'Your account has been created. Please log in to continue.',
+          [
+            {
+              text: 'Login',
+              onPress: () => navigation.replace('Login'),
+            },
+          ],
+        );
       } else {
         Alert.alert(
           'OTP Sent',
@@ -85,7 +86,7 @@ const RegisterScreen = ({navigation}: Props) => {
           ],
         );
       }
-      
+
     } catch (error: any) {
       let message = 'Unable to create account. Please try again.';
 
