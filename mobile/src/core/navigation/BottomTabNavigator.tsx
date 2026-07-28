@@ -17,6 +17,7 @@ import DashboardScreen from '../../features/dashboard/screens/DashboardScreen';
 import PlansScreen from '../../features/plans/screens/PlansScreen';
 import WalletScreen from '../../features/wallet/screens/WalletScreen';
 import ProfileScreen from '../../features/profile/screens/ProfileScreen';
+import UsdtDepositScreen from '../../features/wallet/screens/UsdtDepositScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,6 +34,9 @@ const getIconName = (
 
     case 'Wallet':
       return isFocused ? 'wallet' : 'wallet-outline';
+
+    case 'USDT':
+      return isFocused ? 'cash' : 'cash-outline';
 
     case 'Profile':
       return isFocused ? 'person' : 'person-outline';
@@ -143,6 +147,10 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name="Wallet"
         component={WalletScreen}
+      />
+      <Tab.Screen
+        name="USDT"
+        component={UsdtDepositScreen}
       />
 
       <Tab.Screen

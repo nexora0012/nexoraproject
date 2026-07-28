@@ -72,10 +72,7 @@ const AppNavigator = () => {
        headerShown: true,
        }}
       />
-      <Stack.Screen
-        name="UsdtDeposit"
-        component={UsdtDepositScreen}
-      /> 
+       
 
 
 

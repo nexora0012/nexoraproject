@@ -481,27 +481,7 @@ const WalletScreen = () => {
                 ›
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.usdtDepositButton}
-              onPress={() =>
-                navigation.navigate(
-                  'UsdtDeposit',
-                )
-              }>
-              <Text
-                style={
-                  styles.usdtDepositButtonText
-                }>
-                Deposit via USDT
-              </Text>
-
-              <Text
-                style={
-                  styles.paymentHistoryArrow
-                }>
-                ›
-              </Text>
-            </TouchableOpacity>    
+               
 
             <Text style={styles.sectionTitle}>
               Transactions
@@ -705,24 +685,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 
-  usdtDepositButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Theme.colors.card,
-    borderWidth: 1,
-    borderColor: '#475569',
-    borderRadius: 14,
-    paddingVertical: 16,
-    paddingHorizontal: 18,
-    marginTop: 12,
-  }, 
-
-  usdtDepositButtonText: {
-    color: Theme.colors.white,
-    fontSize: 15,
-    fontWeight: '700',
-  }, 
+ 
 
   sectionTitle: {
     color: Theme.colors.white,

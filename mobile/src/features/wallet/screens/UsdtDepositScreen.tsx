@@ -1,4 +1,4 @@
-// this is a create a new one 
+
 
 import React, {useEffect, useState} from 'react';
 import {
@@ -8,6 +8,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   ScrollView,
+  TouchableOpacity,
+  Linking,
+  Alert,
 } from 'react-native';
 
 import Theme from '../../../core/theme/theme';
@@ -73,6 +76,26 @@ const UsdtDepositScreen = () => {
               <Text style={styles.descriptionText}>{description}</Text>
             </View>
           ) : null}
+
+          <TouchableOpacity
+            style={styles.supportButton}
+            onPress={async () => {
+              const url = 'https://wa.me/918177998843';
+              const supported = await Linking.canOpenURL(url);
+
+              if (supported) {
+                await Linking.openURL(url);
+              } else {
+                Alert.alert(
+                  'Whatsapp Not Available',
+                  'Please install Whatsapp to contact support.',
+                );
+              }
+            }}>
+            <Text style={styles.supportText}>
+              Customer Support
+            </Text>
+          </TouchableOpacity>
         </>
       )}
     </ScrollView>
@@ -129,6 +152,22 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
   },
+  supportButton: {
+    backgroundColor: Theme.colors.card,
+    borderWidth: 1,
+    borderColor: '#475569',
+    borderRadius: 12,
+    paddingVertical: 15,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+
+  supportText: {
+    color: Theme.colors.white,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+
   errorText: {
     color: '#FCA5A5',
     textAlign: 'center',
