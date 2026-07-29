@@ -7,10 +7,13 @@ const { sendOtp, checkOtp } = require('../utils/twilioClient');
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MOBILE_REGEX = /^[6-9]\d{9}$/;
 
+const generateReferralCode = require('../utils/generateReferralCode');
+const ReferralSettings = require('../models/ReferralSettings');
+
 // Step 1: Register — validates + sends OTP via Twilio (if enabled), does NOT fully activate account
 const register = async (req, res) => {
   try {
-    const { fullName, email, mobile, password } = req.body;
+    const { fullName, email, mobile, password, referralCode } = req.body;
 
     if (!fullName || !email || !mobile || !password) {
       return res.status(400).json({ success: false, message: 'All fields are required' });
@@ -50,13 +53,38 @@ const register = async (req, res) => {
       existingUser.isVerified = !otpEnabled;
       user = await existingUser.save();
     } else {
+      let referredBy = null;
+
+      if (referralCode) {
+        const referrer = await User.findOne({
+          referralCode: referralCode.trim().toUpperCase(),
+        });
+
+        if (referrer) {
+          referredBy = referrer._id;
+        }
+      }
+
+      const newReferralCode = await generateReferralCode();
+
       user = await User.create({
         fullName,
         email: cleanEmail,
         mobile: cleanMobile,
         password: hashedPassword,
         isVerified: !otpEnabled,
+        referralCode: newReferralCode,
+        referredBy,
       });
+
+      if (referredBy && !otpEnabled) {
+        const settings = await ReferralSettings.findOne();
+
+        if (settings?.enabled && settings.newUserBonus > 0) {
+          user.walletBalance = Number(user.walletBalance || 0) + settings.newUserBonus;
+          await user.save();
+        }
+      }
     }
 
     if (otpEnabled) {

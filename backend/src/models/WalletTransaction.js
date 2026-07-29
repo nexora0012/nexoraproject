@@ -24,11 +24,12 @@ const walletTransactionSchema =
           "PlanPurchase",
           "MaturityReturn",
           "Refund",
+          "ReferralBonus",
           "Other",
         ],
         default: "Other",
       },
-
+      
       amount: {
         type: Number,
         required: true,

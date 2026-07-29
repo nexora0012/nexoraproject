@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import { loginUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 import "../styles/auth.css";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,8 +27,8 @@ export default function Login() {
       setLoading(true);
       const response = await loginUser({ email: email.trim(), password });
 
-      localStorage.setItem("authToken", response.token);
-      localStorage.setItem("userData", JSON.stringify(response.user));
+      // Use AuthContext.login() so ProtectedRoute recognizes the user immediately
+      login(response.token, response.user);
 
       navigate("/plans");
     } catch (err: any) {

@@ -17,7 +17,7 @@ import Payments from "./pages/payments/Payments";
 import Profile from "./pages/profile/Profile";
 import Announcements from "./pages/announcements/Announcements";
 import Settings from "./pages/settings/Settings";
-
+import ReferAndEarn from "./pages/referral/ReferAndEarn";
 
 function App() {
   return (
@@ -45,6 +45,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/refer-and-earn" element={<ReferAndEarn />} />
 
           </Route>
 

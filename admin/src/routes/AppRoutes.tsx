@@ -18,6 +18,8 @@ import DebitWallet from "../pages/wallet/DebitWallet";
 import Returns from '../pages/returns/Returns';
 import UsdtPayment from '../pages/usdt/UsdtPayment'; 
 import PaymentProofs from "../pages/paymentProof/PaymentProofs";
+import ReferralSettingsPage from "../pages/referral/ReferralSettings";
+
 
 export default function AppRoutes() {
   return (
@@ -49,6 +51,7 @@ export default function AppRoutes() {
       <Route path="/returns" element={<Returns />}/>
       <Route path="/usdt-payment" element={<UsdtPayment />} />
       <Route path="/payment-proofs" element={<PaymentProofs />} />
+      <Route path="/referral" element={<ReferralSettingsPage />} />
 
 
     </Routes>

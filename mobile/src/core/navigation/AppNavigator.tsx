@@ -11,6 +11,10 @@ import {RootStackParamList} from './types';
 import PaymentHistoryScreen from '../../features/payments/screens/PaymentHistoryScreen';
 import VerifyOtpScreen from '../../features/auth/screens/VerifyOtpScreen';
 import UsdtDepositScreen from '../../features/wallet/screens/UsdtDepositScreen'; 
+import ReferAndEarnScreen from '../../features/referral/screens/ReferAndEarnScreen';
+
+
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator = () => {
@@ -71,6 +75,10 @@ const AppNavigator = () => {
        title: 'Payment History',
        headerShown: true,
        }}
+      />
+      <Stack.Screen
+        name="ReferAndEarn"
+        component={ReferAndEarnScreen}
       />
        
 

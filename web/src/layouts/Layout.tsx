@@ -13,6 +13,7 @@ import {
   FiUser,
   FiHelpCircle,
   FiPocket,
+  FiShare2,
 } from "react-icons/fi";
 import "../styles/layout.css";
 
@@ -36,6 +37,11 @@ const menus = [
     name: "Wallet",
     path: "/wallet",
     icon: <FiPocket />,
+  },
+  {
+    name: "Refer & Earn",
+    path: "/refer-and-earn",
+    icon: <FiShare2 />,
   },
   {
     name: "USDT Deposit",

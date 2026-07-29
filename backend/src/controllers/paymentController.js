@@ -6,6 +6,8 @@ const Plan = require("../models/Plan");
 const User = require("../models/User");
 const Payment = require("../models/Payment");
 const Subscription = require("../models/Subscription");
+const WalletTransaction = require('../models/WalletTransaction');
+const ReferralSettings = require('../models/ReferralSettings');
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -314,17 +316,57 @@ const verifyRazorpayPayment = async (req, res) => {
             : "NotApplicable",
        });
 
-    paymentRecord.subscription =
-      subscription._id;
-    paymentRecord.transactionId =
-      razorpay_payment_id;
-    paymentRecord.razorpayPaymentId =
-      razorpay_payment_id;
-    paymentRecord.razorpaySignature =
-      razorpay_signature;
+    paymentRecord.subscription = subscription._id;
+    paymentRecord.transactionId = razorpay_payment_id;
+    paymentRecord.razorpayPaymentId = razorpay_payment_id;
+    paymentRecord.razorpaySignature = razorpay_signature;
     paymentRecord.status = "Success";
 
     await paymentRecord.save();
+    // Referral reward — only fires once, on the buyer's first successful purchase
+    try {
+      const buyer = await User.findById(paymentRecord.user);
+
+      if (buyer && buyer.referredBy && !buyer.referralRewardGiven) {
+        const settings = await ReferralSettings.findOne();
+
+        if (settings?.enabled) {
+          const purchaseAmount = Number(paymentRecord.amount);
+
+          if (purchaseAmount >= Number(settings.minPurchaseAmount || 0)) {
+            const rewardAmount =
+              settings.rewardType === 'percentage'
+                ? (purchaseAmount * Number(settings.rewardValue)) / 100
+                : Number(settings.rewardValue);
+
+            if (rewardAmount > 0) {
+              const referrer = await User.findById(buyer.referredBy);
+
+              if (referrer) {
+                referrer.walletBalance = Number(referrer.walletBalance || 0) + rewardAmount;
+                await referrer.save();
+
+                await WalletTransaction.create({
+                  user: referrer._id,
+                  type: 'credit',
+                  category: 'ReferralBonus',
+                  amount: rewardAmount,
+                  description: `Referral bonus for ${buyer.fullName}'s first plan purchase`,
+                  createdBy: 'System',
+                  referenceId: `REFERRAL_${buyer._id}`,
+                });
+              }
+            }
+          }
+        }
+
+        buyer.referralRewardGiven = true;
+        await buyer.save();
+      }
+    } catch (referralError) {
+      // Referral failures must never break a successful payment
+      console.error('Referral reward error:', referralError);
+    }
 
     await subscription.populate(
       "plan",

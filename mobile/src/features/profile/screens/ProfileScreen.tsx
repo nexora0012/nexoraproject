@@ -480,6 +480,21 @@ const handleLogout = () => {
                 
          </TouchableOpacity>
          <TouchableOpacity
+         style={styles.changePasswordButton}
+         onPress={() =>
+          navigation.navigate(
+            'ReferAndEarn',
+          )
+          }>
+            <Text
+             style={
+             styles.changePasswordText
+              }>
+                Refer & Earn
+                </Text>
+         </TouchableOpacity>
+         
+         <TouchableOpacity
          style={styles.supportButton}
          onPress={() =>
           Linking.openURL('https://wa.me/918177998843')

@@ -25,6 +25,7 @@ const RegisterScreen = ({navigation}: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState('');
 
   const handleRegister = async () => {
     const cleanName = name.trim();
@@ -60,6 +61,7 @@ const RegisterScreen = ({navigation}: Props) => {
         mobile: cleanMobile,
         email: cleanEmail,
         password,
+        referralCode: referralCode.trim() || undefined,
       });
 
       if (response.token) {
@@ -140,6 +142,12 @@ const RegisterScreen = ({navigation}: Props) => {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
+        />
+        <CustomInput
+          placeholder="Referral Code (optional)"
+          value={referralCode}
+          onChangeText={setReferralCode}
+          autoCapitalize="characters"
         />
 
         {isLoading ? (

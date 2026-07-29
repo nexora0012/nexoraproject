@@ -47,5 +47,6 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/admin/returns',adminReturnRoutes,);
 app.use('/api/usdt-payment', require('./routes/usdtPaymentRoutes'));
 app.use('/api/payment-proof', require('./routes/paymentProofRoutes'));
+app.use('/api/referral', require('./routes/referralRoutes'));
 
 module.exports = app;

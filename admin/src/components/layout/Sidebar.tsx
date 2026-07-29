@@ -8,6 +8,7 @@ import {
   FiSettings,
   FiDollarSign,
   FiImage,
+  FiGift,
 } from "react-icons/fi";
 
 import { NavLink } from "react-router-dom";
@@ -57,6 +58,11 @@ const menus = [
     name: "Payment Proofs",
     path: "/payment-proofs",
     icon: <FiImage />,
+  },
+  {
+    name: "Refer & Earn",
+    path: "/referral",
+    icon: <FiGift />,
   },
 
 

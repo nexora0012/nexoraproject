@@ -8,6 +8,6 @@ export type RootStackParamList = {
   MySubscription: undefined;
   ChangePassword: undefined;
   PaymentHistory: undefined;
-   
+  ReferAndEarn: undefined; 
 
 };
