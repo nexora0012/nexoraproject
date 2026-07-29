@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 import { getPlans, subscribePlan, createRazorpayOrder, verifyRazorpayPayment } from "../../services/planService";
 import type { Plan } from "../../services/planService";
 import { useAuth } from "../../context/AuthContext";
@@ -7,6 +8,38 @@ declare global {
   interface Window {
     Razorpay: any;
   }
+}
+
+function TiltCard({ children }: { children: React.ReactNode }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+    cardRef.current.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transformStyle: 'preserve-3d', transition: 'transform 0.15s ease-out' }}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default function Plans() {
@@ -166,14 +199,27 @@ export default function Plans() {
         </div>
       ) : (
         <div
+          className="plans-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gridTemplateColumns: "1fr",
             gap: 20,
+            maxWidth: 600,
+            margin: "0 auto",
           }}
         >
-          {plans.map((plan) => (
-            <div key={plan._id} className="card" style={{ display: "flex", flexDirection: "column" }}>
+          {plans.map((plan, idx) => (
+            <TiltCard key={plan._id}>
+            <motion.div
+              className="card plan-card"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               {plan.image && (
                 <img
                   src={plan.image}
@@ -245,7 +291,8 @@ export default function Plans() {
               >
                 {subscribing === plan._id ? "Subscribing..." : "Subscribe Now"}
               </button>
-            </div>
+            </motion.div>
+            </TiltCard>
           ))}
         </div>
       )}

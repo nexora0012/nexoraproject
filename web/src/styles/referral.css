@@ -1,4 +1,6 @@
-/* ===== Refer & Earn Page ===== */
+/* =========================================================
+   PREMIUM REFER & EARN STYLING
+========================================================= */
 
 .referral-page {
   max-width: 720px;
@@ -6,7 +8,6 @@
   padding-bottom: 40px;
 }
 
-/* Loading */
 .referral-loading {
   display: flex;
   flex-direction: column;
@@ -14,94 +15,96 @@
   justify-content: center;
   padding: 80px 20px;
   gap: 16px;
-  color: #a0aec0;
+  color: #6b7280;
 }
 
 .referral-loading .spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(99, 102, 241, 0.2);
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(99, 102, 241, 0.15);
   border-top-color: #6366f1;
   border-radius: 50%;
-  animation: referral-spin 0.8s linear infinite;
+  animation: referral-spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes referral-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+@keyframes referral-spin { to { transform: rotate(360deg); } }
 
-/* Error */
 .referral-error-card {
-  background: #1e1e2e;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 14px;
+  background: rgba(18, 18, 30, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 24px;
   padding: 40px 24px;
   text-align: center;
-  color: #a0aec0;
+  color: #6b7280;
 }
 
 .referral-retry-btn {
   margin-top: 16px;
   padding: 10px 24px;
-  background: #6366f1;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
 }
 
 .referral-retry-btn:hover {
-  background: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.35);
 }
 
-/* Header */
 .referral-header {
   margin-bottom: 24px;
 }
 
 .referral-title {
-  font-size: 24px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 26px;
   font-weight: 800;
-  color: #fff;
+  color: #e2e8f0;
   margin: 0 0 6px;
+  letter-spacing: -0.5px;
 }
 
 .referral-subtitle {
-  color: #a0aec0;
+  color: #6b7280;
   font-size: 14px;
   margin: 0;
 }
 
 /* Cards */
 .referral-card {
-  background: linear-gradient(135deg, #1e1e2e, #252538);
-  border: 1px solid rgba(99, 102, 241, 0.15);
-  border-radius: 14px;
-  padding: 24px;
+  background: rgba(18, 18, 30, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 28px;
   margin-bottom: 16px;
-  transition: border-color 0.3s;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .referral-card:hover {
-  border-color: rgba(99, 102, 241, 0.3);
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.06);
 }
 
-/* Code Card */
 .code-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 32px 28px;
 }
 
 .code-card-icon {
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.15));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -111,18 +114,18 @@
 }
 
 .code-label {
-  color: #a0aec0;
+  color: #6b7280;
   font-size: 13px;
   margin-bottom: 8px;
 }
 
 .code-value {
-  font-size: 30px;
+  font-family: "Space Grotesk", "Courier New", monospace;
+  font-size: 32px;
   font-weight: 800;
   color: #818cf8;
-  letter-spacing: 3px;
-  margin-bottom: 20px;
-  font-family: "Courier New", monospace;
+  letter-spacing: 4px;
+  margin-bottom: 24px;
 }
 
 .code-actions {
@@ -136,32 +139,28 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
-  border: 1px solid rgba(99, 102, 241, 0.3);
-  border-radius: 8px;
-  background: rgba(99, 102, 241, 0.1);
+  padding: 11px 22px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.08);
   color: #a5b4fc;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s;
 }
 
 .code-action-btn:hover {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.35);
   color: #c7d2fe;
+  transform: translateY(-1px);
 }
 
 .code-action-btn.copied {
-  background: rgba(34, 197, 94, 0.15);
-  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.25);
   color: #4ade80;
-}
-
-.share-btn {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.4);
 }
 
 /* Earnings Card */
@@ -170,6 +169,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 32px 28px;
 }
 
 .earnings-card-header {
@@ -183,14 +183,15 @@
 }
 
 .earnings-value {
-  font-size: 36px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 40px;
   font-weight: 800;
   color: #22c55e;
-  letter-spacing: 1px;
+  letter-spacing: -0.5px;
 }
 
 .earnings-hint {
-  color: #6b7280;
+  color: #52525b;
   font-size: 12px;
   margin: 8px 0 0;
 }
@@ -204,19 +205,19 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 14px;
-  color: #e2e8f0;
+  margin-bottom: 16px;
 }
 
 .section-header h2 {
-  font-size: 17px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
   font-weight: 700;
   margin: 0;
-  color: #fff;
+  color: #e2e8f0;
 }
 
 .section-count {
-  background: rgba(99, 102, 241, 0.2);
+  background: rgba(99, 102, 241, 0.15);
   color: #818cf8;
   font-size: 12px;
   font-weight: 700;
@@ -226,10 +227,11 @@
 
 /* Empty State */
 .empty-state {
-  background: #1e1e2e;
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  border-radius: 14px;
-  padding: 40px 24px;
+  background: rgba(18, 18, 30, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 44px 28px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -238,9 +240,9 @@
 }
 
 .empty-icon {
-  width: 72px;
-  height: 72px;
-  background: rgba(99, 102, 241, 0.1);
+  width: 80px;
+  height: 80px;
+  background: rgba(99, 102, 241, 0.08);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -250,13 +252,14 @@
 
 .empty-state h3 {
   color: #e2e8f0;
+  font-family: "Space Grotesk", sans-serif;
   font-size: 16px;
   font-weight: 700;
   margin: 0;
 }
 
 .empty-state p {
-  color: #6b7280;
+  color: #52525b;
   font-size: 14px;
   margin: 0;
   max-width: 300px;
@@ -267,20 +270,26 @@
   align-items: center;
   gap: 8px;
   margin-top: 8px;
-  padding: 10px 24px;
+  padding: 11px 24px;
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
 }
 
 .share-now-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.35);
+}
+
+.share-btn {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 
 /* Referrals List */
@@ -294,28 +303,30 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1e1e2e;
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  border-radius: 12px;
-  padding: 14px 16px;
-  transition: border-color 0.2s, background 0.2s;
+  background: rgba(18, 18, 30, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 16px 20px;
+  transition: all 0.25s;
 }
 
 .referral-item:hover {
-  border-color: rgba(99, 102, 241, 0.2);
-  background: #22223a;
+  border-color: rgba(99, 102, 241, 0.15);
+  background: rgba(22, 22, 36, 0.7);
+  transform: translateX(2px);
 }
 
 .referral-item-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .referral-avatar {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.15));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -333,12 +344,12 @@
 
 .referral-name {
   color: #e2e8f0;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .referral-date {
-  color: #6b7280;
+  color: #52525b;
   font-size: 12px;
 }
 
@@ -346,21 +357,13 @@
   flex-shrink: 0;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
 .status-badge.rewarded {
-  background: rgba(34, 197, 94, 0.15);
+  background: rgba(34, 197, 94, 0.12);
   color: #4ade80;
 }
 
 .status-badge.pending {
-  background: rgba(234, 179, 8, 0.15);
+  background: rgba(234, 179, 8, 0.12);
   color: #facc15;
 }
 
@@ -372,10 +375,11 @@
 
   .code-value {
     font-size: 24px;
+    letter-spacing: 3px;
   }
 
   .earnings-value {
-    font-size: 28px;
+    font-size: 30px;
   }
 
   .code-actions {
@@ -385,5 +389,9 @@
 
   .code-action-btn {
     justify-content: center;
+  }
+
+  .referral-card {
+    padding: 24px 20px;
   }
 }

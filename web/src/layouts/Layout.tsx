@@ -16,6 +16,8 @@ import {
   FiShare2,
 } from "react-icons/fi";
 import "../styles/layout.css";
+import "../styles/background.css";
+import BackgroundEffects from "../components/BackgroundEffects";
 
 const menus = [
   {
@@ -83,6 +85,7 @@ export default function Layout({ children }: { children?: ReactNode }) {
 
   return (
     <div className="layout">
+      <BackgroundEffects />
       {/* Sidebar */}
       <aside
         className={`sidebar ${sidebarOpen ? "open" : ""}`}

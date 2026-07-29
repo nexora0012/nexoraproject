@@ -18,11 +18,14 @@ import Profile from "./pages/profile/Profile";
 import Announcements from "./pages/announcements/Announcements";
 import Settings from "./pages/settings/Settings";
 import ReferAndEarn from "./pages/referral/ReferAndEarn";
+import BackgroundEffects from "./components/BackgroundEffects";
+import "./styles/background.css";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <BackgroundEffects />
         <Routes>
           {/* Public Auth Routes */}
           <Route path="/login" element={<Login />} />
