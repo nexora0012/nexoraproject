@@ -43,7 +43,7 @@ const getPendingProofCount = async (req, res) => {
   }
 };
 
-// User: get their own submitted proofs
+// User: get their own submitted proofs + status
 const getMyProofs = async (req, res) => {
   try {
     const proofs = await PaymentProof.find({ user: req.user.id })
@@ -126,18 +126,11 @@ const updateProofStatus = async (req, res) => {
   }
 };
 
-// User: view their own submitted proofs + status
-const getMyProofs = async (req, res) => {
-  try {
-    const proofs = await PaymentProof.find({ user: req.user.id }).sort({
-      createdAt: -1,
-    });
-
-    return res.status(200).json({ success: true, proofs });
-  } catch (error) {
-    console.error('Get my proofs error:', error);
-    return res.status(500).json({ success: false, message: 'Server Error' });
-  }
+module.exports = {
+  submitProof,
+  getProofs,
+  updateProofStatus,
+  getMyProofs,
+  deleteProof,
+  getPendingProofCount,
 };
-
-module.exports = { submitProof, getProofs, updateProofStatus, getMyProofs };
