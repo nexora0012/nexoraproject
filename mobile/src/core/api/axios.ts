@@ -34,12 +34,11 @@ api.interceptors.request.use(
  * Common response error handler.
  */
 api.interceptors.response.use(
-  response => response,
-  error => {
-    console.log(
-      'API Error:',
-      error.response?.data ?? error.message,
-    );
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      await AsyncStorage.removeMany(['authToken', 'userData']);
+    }
 
     return Promise.reject(error);
   },

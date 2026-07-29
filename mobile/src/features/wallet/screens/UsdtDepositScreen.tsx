@@ -17,7 +17,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import Theme from '../../../core/theme/theme';
 import {SERVER_BASE_URL} from '../../../core/api/axios';
 import {getUsdtPayment} from '../services/usdtPaymentService';
-import {submitPaymentProof} from '../services/paymentProofService';
+import {submitPaymentProof, getMyProofs} from '../services/paymentProofService';
 
 const UsdtDepositScreen = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -28,6 +28,16 @@ const UsdtDepositScreen = () => {
   const [proofImageUri, setProofImageUri] = useState<string | null>(null);
   const [accountDetails, setAccountDetails] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [myProofs, setMyProofs] = useState<any[]>([]);
+
+  const loadMyProofs = async () => {
+    try {
+      const response = await getMyProofs();
+      setMyProofs(response.proofs || []);
+    } catch (error) {
+      console.log('Load proofs error:', error);
+    }
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -43,6 +53,7 @@ const UsdtDepositScreen = () => {
     };
 
     load();
+    loadMyProofs();
   }, []);
 
   const handlePickImage = async () => {
@@ -81,6 +92,7 @@ const UsdtDepositScreen = () => {
 
       setProofImageUri(null);
       setAccountDetails('');
+      loadMyProofs();
     } catch (error: any) {
       Alert.alert(
         'Error',
@@ -174,6 +186,45 @@ const UsdtDepositScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
+
+          {myProofs.length > 0 ? (
+            <View style={styles.historyCard}>
+              <Text style={styles.sectionTitle}>
+                Your Submissions
+              </Text>
+
+              {myProofs.map((proof) => (
+                <View key={proof._id} style={styles.historyRow}>
+                  <Image
+                    source={{uri: `${SERVER_BASE_URL}${proof.screenshot}`}}
+                    style={styles.historyThumb}
+                  />
+
+                  <View style={styles.historyInfo}>
+                    <Text style={styles.historyDate}>
+                      {new Date(proof.createdAt).toLocaleDateString()}
+                    </Text>
+
+                    <View
+                      style={[
+                        styles.statusBadge,
+                        proof.status === 'approved' && styles.statusApproved,
+                        proof.status === 'rejected' && styles.statusRejected,
+                        proof.status === 'pending' && styles.statusPending,
+                      ]}>
+                      <Text style={styles.statusText}>
+                        {proof.status === 'approved'
+                          ? 'Approved'
+                          : proof.status === 'rejected'
+                          ? 'Rejected'
+                          : 'Pending Review'}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ))}
+            </View>
+          ) : null}
 
           <TouchableOpacity
             style={styles.supportButton}
@@ -301,6 +352,51 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: '#FFFFFF',
     fontWeight: '700',
+  },
+  historyCard: {
+    backgroundColor: Theme.colors.card,
+    borderRadius: 14,
+    padding: 18,
+    marginTop: 20,
+  },
+  historyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  historyThumb: {
+    width: 50,
+    height: 50,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  historyInfo: {
+    flex: 1,
+  },
+  historyDate: {
+    color: Theme.colors.grey,
+    fontSize: 12,
+    marginBottom: 4,
+  },
+  statusBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 20,
+  },
+  statusPending: {
+    backgroundColor: 'rgba(234, 179, 8, 0.15)',
+  },
+  statusApproved: {
+    backgroundColor: 'rgba(34, 197, 94, 0.15)',
+  },
+  statusRejected: {
+    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: Theme.colors.white,
   },
   supportButton: {
     backgroundColor: Theme.colors.card,

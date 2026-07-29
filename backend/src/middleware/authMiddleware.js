@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   try {
     const header = req.headers.authorization;
 
@@ -14,6 +15,15 @@ const authMiddleware = (req, res, next) => {
     const token = header.split(' ')[1];
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const userExists = await User.exists({ _id: decoded.id });
+
+    if (!userExists) {
+      return res.status(401).json({
+        success: false,
+        message: 'Session expired. Please log in again.',
+      });
+    }
 
     req.user = decoded;
 

@@ -20,3 +20,7 @@ export const submitPaymentProof = async (
 
   return response.data;
 };
+export const getMyProofs = async () => {
+  const response = await api.get('/payment-proof/my');
+  return response.data;
+};
