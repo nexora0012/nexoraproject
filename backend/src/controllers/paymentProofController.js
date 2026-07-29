@@ -1,5 +1,61 @@
 const PaymentProof = require('../models/PaymentProof');
 
+// User: delete their own pending proof
+const deleteProof = async (req, res) => {
+  try {
+    const proof = await PaymentProof.findOne({
+      _id: req.params.id,
+      user: req.user.id,
+      status: 'pending',
+    });
+
+    if (!proof) {
+      return res.status(404).json({
+        success: false,
+        message: 'Proof not found or cannot be deleted',
+      });
+    }
+
+    await PaymentProof.deleteOne({ _id: proof._id });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Proof deleted successfully',
+    });
+  } catch (error) {
+    console.error('Delete proof error:', error);
+    return res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+// User: get count of pending proofs
+const getPendingProofCount = async (req, res) => {
+  try {
+    const count = await PaymentProof.countDocuments({
+      user: req.user.id,
+      status: 'pending',
+    });
+
+    return res.status(200).json({ success: true, count });
+  } catch (error) {
+    console.error('Pending proof count error:', error);
+    return res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
+// User: get their own submitted proofs
+const getMyProofs = async (req, res) => {
+  try {
+    const proofs = await PaymentProof.find({ user: req.user.id })
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({ success: true, proofs });
+  } catch (error) {
+    console.error('Get my proofs error:', error);
+    return res.status(500).json({ success: false, message: 'Server Error' });
+  }
+};
+
 // User: submit a payment proof
 const submitProof = async (req, res) => {
   try {
@@ -70,4 +126,4 @@ const updateProofStatus = async (req, res) => {
   }
 };
 
-module.exports = { submitProof, getProofs, updateProofStatus };
+module.exports = { submitProof, getMyProofs, deleteProof, getPendingProofCount, getProofs, updateProofStatus };
