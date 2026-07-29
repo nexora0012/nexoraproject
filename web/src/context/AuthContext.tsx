@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import api from "../api/axios";
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === "true";

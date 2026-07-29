@@ -4,7 +4,7 @@ import { getProfile, updateProfile, changePassword } from "../../services/profil
 import type { ProfileData } from "../../services/profileService";
 
 export default function Profile() {
-  const { user, refreshUser } = useAuth();
+  const { refreshUser } = useAuth();
 
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);

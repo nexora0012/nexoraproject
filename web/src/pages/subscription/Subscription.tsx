@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getMySubscription, getSubscriptionHistory } from "../../services/subscriptionService";
+import { getSubscriptionHistory } from "../../services/subscriptionService";
 import type { MySubscription } from "../../services/subscriptionService";
 
 export default function Subscription() {
