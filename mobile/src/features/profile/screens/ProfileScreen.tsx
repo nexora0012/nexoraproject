@@ -291,6 +291,14 @@ const handleLogout = () => {
             Try Again
           </Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.retryButton, {backgroundColor: 'transparent', borderWidth: 1, borderColor: '#EF4444', marginTop: 12}]}
+          onPress={performLogout}>
+          <Text style={[styles.retryText, {color: '#F87171'}]}>
+            Logout
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
