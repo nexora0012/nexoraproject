@@ -11,6 +11,7 @@ export default function Register() {
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [referralCode, setReferralCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -36,6 +37,7 @@ export default function Register() {
         mobile: mobile.trim(),
         email: email.trim().toLowerCase(),
         password,
+        referralCode: referralCode.trim() || undefined,
       });
 
       if (response.token) {
@@ -88,6 +90,14 @@ export default function Register() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <input
+          className="auth-input"
+          placeholder="Referral Code (optional)"
+          value={referralCode}
+          onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+          style={{ textTransform: "uppercase" }}
         />
 
         <button className="auth-button" type="submit" disabled={loading}>
