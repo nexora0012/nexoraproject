@@ -1,11 +1,17 @@
 const User = require('../models/User');
 const WalletTransaction = require('../models/WalletTransaction');
 const ReferralSettings = require('../models/ReferralSettings');
+const generateReferralCode = require('../utils/generateReferralCode');
 
 // User: my referral code, earnings, and list of people I referred
 const getMySummary = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('referralCode');
+
+    if (!user.referralCode) {
+      user.referralCode = await generateReferralCode();
+      await user.save();
+    }
 
     const referredUsers = await User.find({ referredBy: req.user.id })
       .select('fullName createdAt referralRewardGiven')
