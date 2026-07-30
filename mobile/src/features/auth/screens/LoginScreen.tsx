@@ -7,6 +7,7 @@ import {
   StatusBar,
   Alert,
   ActivityIndicator,
+  ImageBackground,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -151,9 +152,14 @@ const LoginScreen = ({navigation}: Props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('../../../assets/images/app_background.png')}
+      style={styles.container}
+      resizeMode="cover">
+
       <StatusBar
-        backgroundColor={Theme.colors.background}
+        backgroundColor="transparent"
+        translucent
         barStyle="light-content"
       />
 
@@ -215,7 +221,7 @@ const LoginScreen = ({navigation}: Props) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 

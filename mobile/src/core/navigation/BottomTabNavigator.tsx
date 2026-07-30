@@ -18,6 +18,7 @@ import PlansScreen from '../../features/plans/screens/PlansScreen';
 import WalletScreen from '../../features/wallet/screens/WalletScreen';
 import ProfileScreen from '../../features/profile/screens/ProfileScreen';
 import UsdtDepositScreen from '../../features/wallet/screens/UsdtDepositScreen';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,8 +52,10 @@ const CustomTabBar = ({
   descriptors,
   navigation,
 }: BottomTabBarProps) => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.tabBarWrapper}>
+    <View style={[styles.tabBarWrapper, {bottom: insets.bottom + 14}]}>
       <View style={styles.tabBarContainer}>
         {state.routes.map((route, index) => {
           const isFocused = state.index === index;
@@ -132,6 +135,7 @@ const BottomTabNavigator = () => {
       tabBar={props => <CustomTabBar {...props} />}
       screenOptions={{
         headerShown: false,
+        sceneStyle: {backgroundColor: 'transparent'},
       }}
     >
       <Tab.Screen
@@ -166,7 +170,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 14,
     right: 14,
-    bottom: 14,
   },
 
   tabBarContainer: {

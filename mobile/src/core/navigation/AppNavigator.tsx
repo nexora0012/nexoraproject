@@ -9,11 +9,6 @@ import ChangePasswordScreen from '../../features/profile/screens/ChangePasswordS
 import BottomTabNavigator from './BottomTabNavigator';
 import {RootStackParamList} from './types';
 import PaymentHistoryScreen from '../../features/payments/screens/PaymentHistoryScreen';
-import VerifyOtpScreen from '../../features/auth/screens/VerifyOtpScreen';
-import UsdtDepositScreen from '../../features/wallet/screens/UsdtDepositScreen'; 
-import ReferAndEarnScreen from '../../features/referral/screens/ReferAndEarnScreen';
-
-
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -23,67 +18,28 @@ const AppNavigator = () => {
       initialRouteName="Splash"
       screenOptions={{
         headerShown: false,
+        contentStyle: {backgroundColor: 'transparent'},
       }}>
+      <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+      <Stack.Screen name="Main" component={BottomTabNavigator} />
       <Stack.Screen
-        name="Splash"
-        component={SplashScreen}
-      />
-
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-      />
-
-      <Stack.Screen
-        name="Register"
-        component={RegisterScreen}
+        name="MySubscription"
+        component={MySubscriptionScreen}
+        options={{title: 'My Subscription'}}
       />
       <Stack.Screen
-        name="VerifyOtp"
-        component={VerifyOtpScreen}
-      />
-
-      <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPasswordScreen}
-      />
-
-      <Stack.Screen
-        name="Main"
-        component={BottomTabNavigator}
-      />
-
-      <Stack.Screen
-      name="MySubscription"
-      component={MySubscriptionScreen}
-      options={{
-        title: 'My Subscription',
-        }}
+        name="ChangePassword"
+        component={ChangePasswordScreen}
+        options={{title: 'Change Password', headerShown: true}}
       />
       <Stack.Screen
-      name="ChangePassword"
-      component={ChangePasswordScreen}
-      options={{
-        title: 'Change Password',
-        headerShown: true,
-        }}
+        name="PaymentHistory"
+        component={PaymentHistoryScreen}
+        options={{title: 'Payment History', headerShown: true}}
       />
-      <Stack.Screen
-       name="PaymentHistory"
-       component={PaymentHistoryScreen}
-       options={{
-       title: 'Payment History',
-       headerShown: true,
-       }}
-      />
-      <Stack.Screen
-        name="ReferAndEarn"
-        component={ReferAndEarnScreen}
-      />
-       
-
-
-
     </Stack.Navigator>
   );
 };
